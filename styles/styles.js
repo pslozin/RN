@@ -25,6 +25,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  subButton: {
+    backgroundColor: '#ce690b',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+    width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
   buttonText: {
     color: '#fff',
@@ -47,6 +56,10 @@ userText: {
 link: {
   color: 'blue',
   textDecorationLine: 'underline',
+},
+
+about:{
+   fontSize: 28,
 }
 
 });

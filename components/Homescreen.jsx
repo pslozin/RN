@@ -1,20 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import styles from '../styles/styles.js';
+
 
 import axios from 'axios';
 
 
 
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useFocusEffect  } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
 
 export function HomeScreen() {
 
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');
+
+  const navigation = useNavigation();
+  const [success, setSuccess] = useState(false);
+  
   
 
   function onFirstNameChangeHandler(text) {
@@ -78,6 +85,28 @@ export function HomeScreen() {
   
   }
 
+useFocusEffect(
+  useCallback(() => {
+    setSuccess(false);
+
+    fetch('http://129.213.82.233:4000/api/data')
+      .then((response) => {
+        console.log('STATUS:', response.status);
+
+        if (response.status === 200) {
+          console.log('Connection established');
+          setSuccess(true);
+        } else {
+          console.log('Server responded with:', response.status);
+        }
+      })
+      .catch((error) => {
+        console.error('Connection failed:', error);
+        setSuccess(false);
+      });
+  }, [])
+);
+
   return (
     <View style={styles.container}>
 
@@ -104,7 +133,12 @@ export function HomeScreen() {
         <Text style={styles.buttonText}>
           SEND DATA
         </Text>
+
+        
       </TouchableOpacity>
+      <Text style={styles.about, styles.link}
+      onPress={() => navigation.navigate('About')}>About</Text>
+     <Text>Status: {success ? "success" : "failed"}</Text>
 
       <StatusBar style="auto" />
 

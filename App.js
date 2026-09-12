@@ -6,6 +6,7 @@ import { HomeScreen } from './components/Homescreen.jsx';
 import { ProfileScreen } from './components/Profilescreen.jsx';
 import { Alldata } from './components/Alldata.jsx';
 import UserDetails from './components/UserDetails.jsx';
+import About from './components/About.jsx';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -47,6 +48,8 @@ export default function App() {
   const [userFirstName, setUserFirstName] = useState('')
   const [userLastName, setUserLastName] = useState('')
   const [userName, setUsername] = useState('Slozin')
+
+  const [success, setSuccess] = useState(false);
 
 
   function MainTabs() {
@@ -137,37 +140,13 @@ axios.post('http://129.213.82.233:4000/api/userinfotodb', userInfo).then(functio
 }
 
 
-useEffect(() => {
 
-  fetch('http://129.213.82.233:4000/api/data')
-    .then((response) => {
-      console.log("STATUS:", response.status);
-      console.log("CONTENT TYPE:", response.headers.get("content-type"));
-      return response.text();
-    })
-    .then((text) => {
-      console.log("RAW RESPONSE:", JSON.stringify(text));
-
-      if (!text) {
-        throw new Error("Server returned an empty response");
-      }
-
-      const json = JSON.parse(text);
-      console.log("JSON:", json);
-
-      //setData(json.message);
-      //setLoading(false);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-    });
-}, []);
 
   return (
 
   <NavigationContainer>
       <Stack.Navigator>
+        
         
         <Stack.Screen
           name="MainTabs"
@@ -179,6 +158,9 @@ useEffect(() => {
           name="UserDetails"
           component={UserDetails}
         />
+        <Stack.Screen
+         name="About" 
+         component={About} />
 
       </Stack.Navigator>
     </NavigationContainer>
